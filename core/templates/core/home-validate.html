@@ -1,0 +1,22 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block extra_css %}
+{% endblock %}
+
+{% block content %}
+
+<div class="container-fluid vh-80">
+    <div class="row h-100 d-flex justify-content-center min-vh-100" style="background-color: #242222;">
+        <div class="col-md-6 my-auto text-center">
+            <div class="login-card py-4 px-3 p-md-5">
+                <img src="https://app.kashflow.com/V3/assets/images/kf-logo.png" alt="">
+                <div class="api-connection mt-3">
+                    <p class="text-white">Validating...</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock %}
