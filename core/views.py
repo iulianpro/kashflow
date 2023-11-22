@@ -7,7 +7,6 @@ from django.contrib import messages
 from .models import AuthVarsControl
 
 import environ
-import json
 import requests
 
 
@@ -75,7 +74,7 @@ def home_validate(request):
             base_uri = 'http://localhost:8000/'
         else:
             base_uri = request.build_absolute_uri()
-        redirect_uri = base_uri + 'home-authenticated/'
+        redirect_uri = base_uri + 'home-validate/'
         post_url = 'https://api.iris.co.uk/oauth2/v1/token'
         headers = {
             'Authorization': 'Basic ' + encoded_auth_header,
@@ -83,17 +82,21 @@ def home_validate(request):
         }
         data = {
             'grant_type': 'authorization_code',
-            'auth_code': auth_code,
+            'code': auth_code,
             'redirect_uri': redirect_uri,
         }
 
         # making the post request to kashflow
-        response = requests.post(post_url, data=data, headers=headers)
+        response = requests.post(post_url, headers=headers, data=data)
+        print('POST Request URL: ' + str(response.request.url))
+        print('POST Request Body: ' + str(response.request.body))
+        print('POST Request Headers: ' + str(response.request.headers))
         return HttpResponse(response.text, response.reason, response.status_code)
 
     else:
         print('Path 1')
-        messages.error(request, 'Your validation data doesn\'t match. Plese connect to the API again')
+        messages.error(
+            request, 'Your validation data doesn\'t match. Plese connect to the API again')
         return redirect('home')
 
 
